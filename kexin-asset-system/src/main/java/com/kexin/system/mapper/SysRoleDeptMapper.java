@@ -3,8 +3,7 @@ package com.kexin.system.mapper;
 import java.util.List;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ruoyi.system.domain.SysPost;
-import com.ruoyi.system.domain.SysRoleDept;
+
 
 import com.kexin.system.domain.SysRoleDept;
 

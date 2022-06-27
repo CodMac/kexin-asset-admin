@@ -3,7 +3,7 @@ package com.kexin.system.mapper;
 import java.util.List;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ruoyi.system.domain.SysConfig;
+import com.kexin.system.domain.SysConfig;
 
 /**
  * 参数配置 数据层

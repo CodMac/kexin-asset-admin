@@ -3,7 +3,6 @@ package com.kexin.system.mapper;
 import java.util.List;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ruoyi.system.domain.SysUserPost;
 import com.kexin.system.domain.SysUserPost;
 
 /**

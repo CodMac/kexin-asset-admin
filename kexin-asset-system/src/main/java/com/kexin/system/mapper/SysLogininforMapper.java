@@ -5,8 +5,6 @@ import java.util.List;
 import com.kexin.system.domain.SysLogininfor;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ruoyi.common.core.domain.entity.SysDictType;
-import com.ruoyi.system.domain.SysLogininfor;
 
 /**
  * 系统访问日志情况信息 数据层

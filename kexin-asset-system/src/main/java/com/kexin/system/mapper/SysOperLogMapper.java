@@ -3,8 +3,6 @@ package com.kexin.system.mapper;
 import java.util.List;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ruoyi.common.core.domain.entity.SysMenu;
-import com.ruoyi.system.domain.SysOperLog;
 
 import com.kexin.system.domain.SysOperLog;
 
