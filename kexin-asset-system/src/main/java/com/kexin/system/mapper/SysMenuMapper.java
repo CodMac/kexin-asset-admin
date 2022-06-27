@@ -1,6 +1,8 @@
 package com.kexin.system.mapper;
 
 import java.util.List;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import com.kexin.common.core.domain.entity.SysMenu;
 
@@ -9,8 +11,7 @@ import com.kexin.common.core.domain.entity.SysMenu;
  *
  * @author ruoyi
  */
-public interface SysMenuMapper
-{
+public interface SysMenuMapper extends BaseMapper<SysMenu> {
     /**
      * 查询系统菜单列表
      *
@@ -59,8 +60,8 @@ public interface SysMenuMapper
 
     /**
      * 根据角色ID查询菜单树信息
-     * 
-     * @param roleId 角色ID
+     *
+     * @param roleId            角色ID
      * @param menuCheckStrictly 菜单树选择项是否关联显示
      * @return 选中菜单列表
      */

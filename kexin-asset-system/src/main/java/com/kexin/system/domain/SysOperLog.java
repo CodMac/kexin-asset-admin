@@ -1,6 +1,8 @@
 package com.kexin.system.domain;
 
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kexin.common.annotation.Excel;
 import com.kexin.common.annotation.Excel.ColumnType;
@@ -11,6 +13,7 @@ import com.kexin.common.core.domain.BaseEntity;
  * 
  * @author ruoyi
  */
+@TableName("sys_oper_log")
 public class SysOperLog extends BaseEntity
 {
     private static final long serialVersionUID = 1L;

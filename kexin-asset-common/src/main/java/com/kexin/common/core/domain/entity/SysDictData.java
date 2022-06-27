@@ -3,6 +3,8 @@ package com.kexin.common.core.domain.entity;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+
 import com.kexin.common.annotation.Excel;
 import com.kexin.common.constant.UserConstants;
 import com.kexin.common.core.domain.BaseEntity;
@@ -14,6 +16,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * 
  * @author ruoyi
  */
+@TableName("sys_dict_data")
 public class SysDictData extends BaseEntity
 {
     private static final long serialVersionUID = 1L;

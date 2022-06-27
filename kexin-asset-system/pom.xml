@@ -21,9 +21,11 @@
         <dependency>
             <groupId>kexin.io</groupId>
             <artifactId>kexin-asset-common</artifactId>
-            <version>1.0.0</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
