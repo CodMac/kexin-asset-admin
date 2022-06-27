@@ -101,8 +101,8 @@ public class SysUser extends BaseEntity {
      * 部门对象
      */
     @Excels({
-        @Excel(name = "部门名称", targetAttr = "deptName", type = Excel.Type.EXPORT),
-        @Excel(name = "部门负责人", targetAttr = "leader", type = Excel.Type.EXPORT)
+            @Excel(name = "部门名称", targetAttr = "deptName", type = Excel.Type.EXPORT),
+            @Excel(name = "部门负责人", targetAttr = "leader", type = Excel.Type.EXPORT)
     })
     private SysDept dept;
 

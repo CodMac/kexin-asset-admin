@@ -6,6 +6,7 @@ import javax.validation.constraints.Size;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -22,6 +23,7 @@ import com.kexin.common.core.domain.BaseEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("sys_config")
+@EqualsAndHashCode(callSuper=false)
 public class SysConfig extends BaseEntity {
     private static final long serialVersionUID = 1L;
 

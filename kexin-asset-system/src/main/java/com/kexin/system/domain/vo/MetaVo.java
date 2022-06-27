@@ -5,12 +5,11 @@ import lombok.Data;
 
 /**
  * 路由显示信息
- * 
+ *
  * @author ruoyi
  */
 @Data
-public class MetaVo
-{
+public class MetaVo {
     /**
      * 设置该路由在侧边栏和面包屑中展示的名字
      */
@@ -31,37 +30,31 @@ public class MetaVo
      */
     private String link;
 
-    public MetaVo()
-    {
+    public MetaVo() {
     }
 
-    public MetaVo(String title, String icon)
-    {
+    public MetaVo(String title, String icon) {
         this.title = title;
         this.icon = icon;
     }
 
-    public MetaVo(String title, String icon, boolean noCache)
-    {
+    public MetaVo(String title, String icon, boolean noCache) {
         this.title = title;
         this.icon = icon;
         this.noCache = noCache;
     }
 
-    public MetaVo(String title, String icon, String link)
-    {
+    public MetaVo(String title, String icon, String link) {
         this.title = title;
         this.icon = icon;
         this.link = link;
     }
 
-    public MetaVo(String title, String icon, boolean noCache, String link)
-    {
+    public MetaVo(String title, String icon, boolean noCache, String link) {
         this.title = title;
         this.icon = icon;
         this.noCache = noCache;
-        if (StringUtils.ishttp(link))
-        {
+        if (StringUtils.ishttp(link)) {
             this.link = link;
         }
     }

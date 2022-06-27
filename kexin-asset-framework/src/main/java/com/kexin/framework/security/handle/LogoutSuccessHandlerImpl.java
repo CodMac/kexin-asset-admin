@@ -9,14 +9,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import com.alibaba.fastjson2.JSON;
-import com.kexin.common.constant.Constants;
 import com.kexin.common.constant.HttpStatus;
 import com.kexin.common.core.domain.AjaxResult;
 import com.kexin.common.core.domain.model.LoginUser;
 import com.kexin.common.utils.ServletUtils;
 import com.kexin.common.utils.StringUtils;
-import com.kexin.framework.manager.AsyncManager;
-import com.kexin.framework.manager.factory.AsyncFactory;
 import com.kexin.framework.web.service.TokenService;
 
 /**
@@ -45,8 +42,6 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler
             String userName = loginUser.getUsername();
             // 删除用户缓存记录
             tokenService.delLoginUser(loginUser.getToken());
-            // 记录用户退出日志
-            AsyncManager.me().execute(AsyncFactory.recordLogininfor(userName, Constants.LOGOUT, "退出成功"));
         }
         ServletUtils.renderString(response, JSON.toJSONString(AjaxResult.error(HttpStatus.SUCCESS, "退出成功")));
     }

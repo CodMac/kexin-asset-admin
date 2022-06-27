@@ -6,8 +6,7 @@ package com.kexin.common.enums;
  * @author ruoyi
  */
 
-public enum LimitType
-{
+public enum LimitType {
     /**
      * 默认策略全局限流
      */
