@@ -2,15 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	
+    <modelVersion>4.0.0</modelVersion>
+
     <groupId>kexin.io</groupId>
     <artifactId>kexin-asset-admin</artifactId>
     <version>1.0.0</version>
 
     <name>kexin-asset-admin</name>
     <description>kexin-asset-admin</description>
-    
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -31,7 +31,7 @@
         <velocity.version>2.3</velocity.version>
         <jwt.version>0.9.1</jwt.version>
     </properties>
-	
+
     <!-- 依赖声明 -->
     <dependencyManagement>
         <dependencies>
@@ -60,11 +60,11 @@
             </dependency>
 
             <!-- SpringBoot集成mybatis框架 -->
-<!--            <dependency>-->
-<!--                <groupId>org.mybatis.spring.boot</groupId>-->
-<!--                <artifactId>mybatis-spring-boot-starter</artifactId>-->
-<!--                <version>${mybatis-spring-boot.version}</version>-->
-<!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>org.mybatis.spring.boot</groupId>-->
+            <!--                <artifactId>mybatis-spring-boot-starter</artifactId>-->
+            <!--                <version>${mybatis-spring-boot.version}</version>-->
+            <!--            </dependency>-->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus</artifactId>
@@ -157,14 +157,14 @@
             <!-- 核心模块-->
             <dependency>
                 <groupId>kexin.io</groupId>
-                <artifactId>ruoyi-framework</artifactId>
+                <artifactId>kexin-asset-framework</artifactId>
                 <version>1.0.0</version>
             </dependency>
 
             <!-- 系统模块-->
             <dependency>
                 <groupId>kexin.io</groupId>
-                <artifactId>ruoyi-system</artifactId>
+                <artifactId>kexin-asset-system</artifactId>
                 <version>1.0.0</version>
             </dependency>
 
@@ -188,7 +188,12 @@
 
 
     <dependencies>
-
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.24</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
