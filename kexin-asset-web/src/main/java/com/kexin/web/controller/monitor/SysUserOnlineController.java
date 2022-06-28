@@ -1,28 +1,22 @@
 package com.kexin.web.controller.monitor;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.kexin.common.annotation.Log;
 import com.kexin.common.constant.CacheConstants;
 import com.kexin.common.core.controller.BaseController;
 import com.kexin.common.core.domain.AjaxResult;
 import com.kexin.common.core.domain.model.LoginUser;
 import com.kexin.common.core.page.TableDataInfo;
 import com.kexin.common.core.redis.RedisCache;
-import com.kexin.common.enums.BusinessType;
 import com.kexin.common.utils.StringUtils;
 import com.kexin.system.domain.SysUserOnline;
 import com.kexin.system.service.ISysUserOnlineService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 在线用户监控
@@ -70,7 +64,6 @@ public class SysUserOnlineController extends BaseController {
      * 强退用户
      */
     @PreAuthorize("@ss.hasPermi('monitor:online:forceLogout')")
-    @Log(title = "在线用户", businessType = BusinessType.FORCE)
     @DeleteMapping("/{tokenId}")
     public AjaxResult forceLogout(@PathVariable String tokenId) {
         redisCache.deleteObject(CacheConstants.LOGIN_TOKEN_KEY + tokenId);

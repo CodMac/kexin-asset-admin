@@ -64,9 +64,9 @@ public class TokenService {
                 // 解析对应的权限以及用户信息
                 String uuid = (String) claims.get(Constants.LOGIN_USER_KEY);
                 String userKey = getTokenKey(uuid);
-                LoginUser user = redisCache.getCacheObject(userKey);
-                return user;
+                return redisCache.getCacheObject(userKey);
             } catch (Exception e) {
+
             }
         }
         return null;
@@ -110,9 +110,6 @@ public class TokenService {
 
     /**
      * 验证令牌有效期，相差不足20分钟，自动刷新缓存
-     *
-     * @param loginUser
-     * @return 令牌
      */
     public void verifyToken(LoginUser loginUser) {
         long expireTime = loginUser.getExpireTime();
@@ -156,10 +153,7 @@ public class TokenService {
      * @return 令牌
      */
     private String createToken(Map<String, Object> claims) {
-        String token = Jwts.builder()
-                .setClaims(claims)
-                .signWith(SignatureAlgorithm.HS512, secret).compact();
-        return token;
+        return Jwts.builder().setClaims(claims).signWith(SignatureAlgorithm.HS512, secret).compact();
     }
 
     /**
@@ -169,17 +163,14 @@ public class TokenService {
      * @return 数据声明
      */
     private Claims parseToken(String token) {
-        return Jwts.parser()
-                .setSigningKey(secret)
-                .parseClaimsJws(token)
-                .getBody();
+        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
 
     /**
-     * 从令牌中获取用户名
+     * get username for token
      *
-     * @param token 令牌
-     * @return 用户名
+     * @param token token
+     * @return username
      */
     public String getUsernameFromToken(String token) {
         Claims claims = parseToken(token);
@@ -187,9 +178,9 @@ public class TokenService {
     }
 
     /**
-     * 获取请求token
+     * get token in request
      *
-     * @param request
+     * @param request request
      * @return token
      */
     private String getToken(HttpServletRequest request) {

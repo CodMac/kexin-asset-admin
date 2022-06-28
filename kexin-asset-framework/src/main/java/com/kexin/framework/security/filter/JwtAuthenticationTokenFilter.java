@@ -1,21 +1,20 @@
 package com.kexin.framework.security.filter;
 
-import java.io.IOException;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.kexin.common.core.domain.model.LoginUser;
+import com.kexin.common.utils.SecurityUtils;
+import com.kexin.common.utils.StringUtils;
+import com.kexin.framework.web.service.TokenService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import com.kexin.common.core.domain.model.LoginUser;
-import com.kexin.common.utils.SecurityUtils;
-import com.kexin.common.utils.StringUtils;
-import com.kexin.framework.web.service.TokenService;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * token过滤器 验证token有效性
@@ -24,8 +23,11 @@ import com.kexin.framework.web.service.TokenService;
  */
 @Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
-    @Autowired
-    private TokenService tokenService;
+    private final TokenService tokenService;
+
+    public JwtAuthenticationTokenFilter(TokenService tokenService) {
+        this.tokenService = tokenService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)

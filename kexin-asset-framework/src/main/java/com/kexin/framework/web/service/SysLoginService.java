@@ -1,13 +1,5 @@
 package com.kexin.framework.web.service;
 
-import javax.annotation.Resource;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Component;
 import com.kexin.common.constant.CacheConstants;
 import com.kexin.common.core.domain.entity.SysUser;
 import com.kexin.common.core.domain.model.LoginUser;
@@ -22,11 +14,17 @@ import com.kexin.common.utils.StringUtils;
 import com.kexin.common.utils.ip.IpUtils;
 import com.kexin.system.service.ISysConfigService;
 import com.kexin.system.service.ISysUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 /**
- * 登录校验方法
- *
- * @author ruoyi
+ * Login verification class
  */
 @Component
 public class SysLoginService {
@@ -46,26 +44,25 @@ public class SysLoginService {
     private ISysConfigService configService;
 
     /**
-     * 登录验证
+     * login verification
      *
-     * @param username 用户名
-     * @param password 密码
-     * @param code     验证码
-     * @param uuid     唯一标识
-     * @return 结果
+     * @param username username
+     * @param password password
+     * @param code     captcha
+     * @param uuid     unique identification
+     * @return user token
      */
     public String login(String username, String password, String code, String uuid) {
         boolean captchaOnOff = configService.selectCaptchaOnOff();
-        // 验证码开关
+        // verification code switch
         if (captchaOnOff) {
             validateCaptcha(username, code, uuid);
         }
-        // 用户验证
-        Authentication authentication = null;
+        // user Authentication
+        Authentication authentication;
         try {
-            // 该方法会去调用UserDetailsServiceImpl.loadUserByUsername
-            authentication = authenticationManager
-                    .authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            // call the UserDetailsServiceImpl.loadUserByUsername method complete the authentication
+            authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (Exception e) {
             if (e instanceof BadCredentialsException) {
                 throw new UserPasswordNotMatchException();
@@ -75,17 +72,16 @@ public class SysLoginService {
         }
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
         recordLoginInfo(loginUser.getUserId());
-        // 生成token
+        // generator token
         return tokenService.createToken(loginUser);
     }
 
     /**
-     * 校验验证码
+     * verification code
      *
-     * @param username 用户名
-     * @param code     验证码
-     * @param uuid     唯一标识
-     * @return 结果
+     * @param username username
+     * @param code     captcha
+     * @param uuid     unique identification
      */
     public void validateCaptcha(String username, String code, String uuid) {
         String verifyKey = CacheConstants.CAPTCHA_CODE_KEY + StringUtils.nvl(uuid, "");
@@ -100,9 +96,7 @@ public class SysLoginService {
     }
 
     /**
-     * 记录登录信息
-     *
-     * @param userId 用户ID
+     * record user login information
      */
     public void recordLoginInfo(Long userId) {
         SysUser sysUser = new SysUser();
