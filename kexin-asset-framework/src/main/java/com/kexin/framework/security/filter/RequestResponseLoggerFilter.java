@@ -7,10 +7,6 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.core.env.Environment;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -21,9 +17,9 @@ import java.util.Calendar;
 
 public class RequestResponseLoggerFilter implements Filter {
     private static final Logger logger = LoggerFactory.getLogger(RequestResponseLoggerFilter.class);
-    private static final String FORM_CONTENT_TYPE = "application/x-www-form-urlencoded";
-    private static final String REGEX_KEY = "common.filter.log.regex";
-    private Environment environment;
+    private static final String CONTENT_TYPE = "application/x-www-form-urlencoded";
+    // url contains string "upload" or "export" no log output. example: (?!.*(upload|export)).*$
+    private String regex = "";
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -32,8 +28,7 @@ public class RequestResponseLoggerFilter implements Filter {
                 MDC.put("RequestId", generateUnique());
                 HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
                 HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
-                // TODO
-                boolean isLogger = true;//isLogger(httpServletRequest.getRequestURI());
+                boolean isLogger = loggerFilter(httpServletRequest.getRequestURI());
                 long startTime = System.currentTimeMillis();
                 StringBuilder logMessage = (new StringBuilder("[")).append(httpServletRequest.getRemoteAddr()).append(" ").append(httpServletRequest.getMethod()).append(" ").append(httpServletRequest.getRequestURI()).append("]");
                 String uuid = httpServletRequest.getHeader("serviceUUID");
@@ -51,7 +46,7 @@ public class RequestResponseLoggerFilter implements Filter {
                     BufferedRequestWrapper bufferedRequest = new BufferedRequestWrapper(httpServletRequest);
                     BufferedResponseWrapper bufferedResponse = new BufferedResponseWrapper(httpServletResponse);
                     StringBuilder requestBody = new StringBuilder();
-                    if (FORM_CONTENT_TYPE.equalsIgnoreCase(httpServletRequest.getContentType())) {
+                    if (CONTENT_TYPE.equalsIgnoreCase(httpServletRequest.getContentType())) {
                         requestBody.append(JSON.toJSONString(bufferedRequest.getParameterMap()));
                     } else {
                         requestBody.append(bufferedRequest.getRequestBody());
@@ -84,15 +79,6 @@ public class RequestResponseLoggerFilter implements Filter {
     }
 
     @Override
-    public void init(FilterConfig filterConfig) {
-        ServletContext servletContext = filterConfig.getServletContext();
-        WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
-        AutowireCapableBeanFactory autowireCapableBeanFactory = webApplicationContext.getAutowireCapableBeanFactory();
-        autowireCapableBeanFactory.autowireBeanProperties(this, 2, false);
-        logger.trace("This method implementation not needed");
-    }
-
-    @Override
     public void destroy() {
 
     }
@@ -106,9 +92,9 @@ public class RequestResponseLoggerFilter implements Filter {
     }
 
     /**
-     * 生成唯一码 17位时间戳+3位随机码
+     * generate 17 bit +3 random bit code
      *
-     * @return 唯一标识
+     * @return Request unique identification
      */
     public String generateUnique() {
         return StringUtils.join(DateFormatUtils.format(Calendar.getInstance()
@@ -116,8 +102,12 @@ public class RequestResponseLoggerFilter implements Filter {
                 .randomNumeric(3));
     }
 
-    public boolean isLogger(String url) {
-        return (url != null && url.matches(environment.getRequiredProperty(REGEX_KEY)));
+    public boolean loggerFilter(String url) {
+        return (url != null && url.matches(regex));
+    }
+
+    public void setRegex(String regex) {
+        this.regex = regex;
     }
 
 }

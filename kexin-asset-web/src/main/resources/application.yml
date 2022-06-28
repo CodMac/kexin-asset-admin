@@ -38,6 +38,10 @@ logging:
   level:
     com.kexin: debug
     org.springframework: warn
+# 不输出请求体/相应体的url
+filter:
+  log:
+    regex: (?!.*(upload|Upload|Excel|excel|export|Export)).*$
 
 # Spring配置
 spring:
@@ -125,7 +129,4 @@ xss:
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
 
-common:
-  filter:
-    log:
-      regex: (?!.*((upload)|(fileUpload)|(Excel)|(/file/upload))).*$
+

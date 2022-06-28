@@ -13,11 +13,16 @@ public class LoggerFilterConfig {
     @Value("${application.servlet-path:/}")
     public String urlPrefix;
 
+    @Value("${filter.log.regex:}")
+    public String loggerFilter;
+
     @Bean
     public FilterRegistrationBean<Filter> loggerFilterBean() {
         FilterRegistrationBean<Filter> filterRegistration = new FilterRegistrationBean<>();
-        filterRegistration.setFilter(new RequestResponseLoggerFilter());
-        filterRegistration.addUrlPatterns("/*");
+        RequestResponseLoggerFilter filter = new RequestResponseLoggerFilter();
+        filter.setRegex(loggerFilter);
+        filterRegistration.setFilter(filter);
+        filterRegistration.addUrlPatterns(urlPrefix + "*");
         return filterRegistration;
     }
 
