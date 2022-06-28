@@ -3,6 +3,7 @@ package com.kexin.common.core.domain.model;
 import java.util.Collection;
 import java.util.Set;
 
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import com.alibaba.fastjson2.annotation.JSONField;
@@ -13,6 +14,7 @@ import com.kexin.common.core.domain.entity.SysUser;
  *
  * @author ruoyi
  */
+@Data
 public class LoginUser implements UserDetails {
     private static final long serialVersionUID = 1L;
 
@@ -70,30 +72,6 @@ public class LoginUser implements UserDetails {
      * 用户信息
      */
     private SysUser user;
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public Long getDeptId() {
-        return deptId;
-    }
-
-    public void setDeptId(Long deptId) {
-        this.deptId = deptId;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
 
     public LoginUser() {
     }
@@ -161,70 +139,6 @@ public class LoginUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    public Long getLoginTime() {
-        return loginTime;
-    }
-
-    public void setLoginTime(Long loginTime) {
-        this.loginTime = loginTime;
-    }
-
-    public String getIpaddr() {
-        return ipaddr;
-    }
-
-    public void setIpaddr(String ipaddr) {
-        this.ipaddr = ipaddr;
-    }
-
-    public String getLoginLocation() {
-        return loginLocation;
-    }
-
-    public void setLoginLocation(String loginLocation) {
-        this.loginLocation = loginLocation;
-    }
-
-    public String getBrowser() {
-        return browser;
-    }
-
-    public void setBrowser(String browser) {
-        this.browser = browser;
-    }
-
-    public String getOs() {
-        return os;
-    }
-
-    public void setOs(String os) {
-        this.os = os;
-    }
-
-    public Long getExpireTime() {
-        return expireTime;
-    }
-
-    public void setExpireTime(Long expireTime) {
-        this.expireTime = expireTime;
-    }
-
-    public Set<String> getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(Set<String> permissions) {
-        this.permissions = permissions;
-    }
-
-    public SysUser getUser() {
-        return user;
-    }
-
-    public void setUser(SysUser user) {
-        this.user = user;
     }
 
     @Override
