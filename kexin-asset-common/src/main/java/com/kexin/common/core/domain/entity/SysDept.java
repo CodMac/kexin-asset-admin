@@ -42,7 +42,7 @@ public class SysDept extends BaseEntity {
      * 部门名称
      */
     @NotBlank(message = "部门名称不能为空")
-    @Size(min = 0, max = 30, message = "部门名称长度不能超过30个字符")
+    @Size(min = 0, max = 100, message = "部门名称长度不能超过100个字符")
     private String deptName;
 
     /**
