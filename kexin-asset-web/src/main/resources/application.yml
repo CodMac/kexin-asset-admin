@@ -124,3 +124,8 @@ xss:
   excludes: /system/notice
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
+
+common:
+  filter:
+    log:
+      regex: (?!.*((upload)|(fileUpload)|(Excel)|(/file/upload))).*$
