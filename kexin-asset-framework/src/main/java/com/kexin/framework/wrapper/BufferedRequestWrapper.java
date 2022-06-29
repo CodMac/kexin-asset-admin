@@ -1,4 +1,4 @@
-package com.kexin.framework.security.filter;
+package com.kexin.framework.wrapper;
 
 import org.springframework.util.CollectionUtils;
 
@@ -81,7 +81,7 @@ public class BufferedRequestWrapper extends HttpServletRequestWrapper {
      * @return body
      * @throws IOException i/o exception
      */
-    String getRequestBody() throws IOException {
+    public String getRequestBody() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(this.getInputStream()));
         String line;
         StringBuilder inputBuffer = new StringBuilder();

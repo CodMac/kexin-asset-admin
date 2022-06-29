@@ -1,7 +1,7 @@
 package com.kexin.framework.aspectj;
 
-import java.util.Objects;
-
+import com.kexin.common.annotation.DataSource;
+import com.kexin.common.utils.StringUtils;
 import com.kexin.framework.datasource.DynamicDataSourceContextHolder;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -13,13 +13,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import com.kexin.common.annotation.DataSource;
-import com.kexin.common.utils.StringUtils;
+
+import java.util.Objects;
 
 /**
- * 多数据源处理
- *
- * @author ruoyi
+ * Multi-data source switchover processing class
  */
 @Aspect
 @Order(1)
@@ -27,10 +25,8 @@ import com.kexin.common.utils.StringUtils;
 public class DataSourceAspect {
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Pointcut("@annotation(com.kexin.common.annotation.DataSource)"
-            + "|| @within(com.kexin.common.annotation.DataSource)")
+    @Pointcut("@annotation(com.kexin.common.annotation.DataSource)|| @within(com.kexin.common.annotation.DataSource)")
     public void dsPointCut() {
-
     }
 
     @Around("dsPointCut()")
@@ -44,13 +40,13 @@ public class DataSourceAspect {
         try {
             return point.proceed();
         } finally {
-            // 销毁数据源 在执行方法之后
-            DynamicDataSourceContextHolder.clearDataSourceType();
+            // clean data source
+            DynamicDataSourceContextHolder.clearDataSourceKey();
         }
     }
 
     /**
-     * 获取需要切换的数据源
+     * Get the method annotation @Datasource
      */
     public DataSource getDataSource(ProceedingJoinPoint point) {
         MethodSignature signature = (MethodSignature) point.getSignature();
@@ -58,7 +54,6 @@ public class DataSourceAspect {
         if (Objects.nonNull(dataSource)) {
             return dataSource;
         }
-
         return AnnotationUtils.findAnnotation(signature.getDeclaringType(), DataSource.class);
     }
 }

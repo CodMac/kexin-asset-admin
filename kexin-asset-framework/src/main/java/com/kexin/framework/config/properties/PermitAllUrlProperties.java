@@ -20,8 +20,6 @@ import java.util.regex.Pattern;
 
 /**
  * 设置Anonymous注解允许匿名访问的url
- *
- * @author ruoyi
  */
 @Configuration
 public class PermitAllUrlProperties implements InitializingBean, ApplicationContextAware {
@@ -29,7 +27,7 @@ public class PermitAllUrlProperties implements InitializingBean, ApplicationCont
 
     private ApplicationContext applicationContext;
 
-    private List<String> urls = new ArrayList<>();
+    private final List<String> urls = new ArrayList<>();
 
     public String ASTERISK = "*";
 
@@ -41,12 +39,12 @@ public class PermitAllUrlProperties implements InitializingBean, ApplicationCont
         map.keySet().forEach(info -> {
             HandlerMethod handlerMethod = map.get(info);
 
-            // 获取方法上边的注解 替代path variable 为 *
+            // Get method URL also replaces the URL path variable with *
             Anonymous method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), Anonymous.class);
             Optional.ofNullable(method).ifPresent(anonymous -> info.getPatternsCondition().getPatterns()
                     .forEach(url -> urls.add(RegExUtils.replaceAll(url, PATTERN, ASTERISK))));
 
-            // 获取类上边的注解, 替代path variable 为 *
+            // Get controller URL also replaces the URL path variable with *
             Anonymous controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), Anonymous.class);
             Optional.ofNullable(controller).ifPresent(anonymous -> info.getPatternsCondition().getPatterns()
                     .forEach(url -> urls.add(RegExUtils.replaceAll(url, PATTERN, ASTERISK))));
@@ -60,9 +58,5 @@ public class PermitAllUrlProperties implements InitializingBean, ApplicationCont
 
     public List<String> getUrls() {
         return urls;
-    }
-
-    public void setUrls(List<String> urls) {
-        this.urls = urls;
     }
 }

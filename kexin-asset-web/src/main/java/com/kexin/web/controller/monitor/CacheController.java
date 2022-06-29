@@ -1,26 +1,19 @@
 package com.kexin.web.controller.monitor;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisCallback;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.kexin.common.annotation.Anonymous;
+import com.kexin.common.annotation.RateLimiter;
+import com.kexin.common.annotation.RepeatSubmit;
 import com.kexin.common.constant.CacheConstants;
 import com.kexin.common.core.domain.AjaxResult;
 import com.kexin.common.utils.StringUtils;
 import com.kexin.system.domain.SysCache;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisCallback;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.*;
 
 /**
  * 缓存监控
@@ -33,7 +26,20 @@ public class CacheController {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
-    private final static List<SysCache> caches = new ArrayList<SysCache>();
+    @Autowired
+    public RedisTemplate<Object, Object> redisTemplate2;
+
+    private final static List<SysCache> caches = new ArrayList<>();
+
+    @RepeatSubmit(interval = 10000000)
+    @RateLimiter(count = 2)
+    @Anonymous
+    @RequestMapping("/setCache")
+    public AjaxResult setInfo(String key, String value) {
+        redisTemplate2.opsForValue().set(key, value);
+        System.out.println(redisTemplate.opsForValue().get(key));
+        return AjaxResult.success(null);
+    }
 
     {
         caches.add(new SysCache(CacheConstants.LOGIN_TOKEN_KEY, "用户信息"));

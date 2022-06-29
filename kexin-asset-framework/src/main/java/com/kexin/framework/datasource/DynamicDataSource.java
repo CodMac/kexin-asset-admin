@@ -1,14 +1,12 @@
 package com.kexin.framework.datasource;
 
-import java.util.Map;
-import javax.sql.DataSource;
-
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
+import javax.sql.DataSource;
+import java.util.Map;
+
 /**
- * 动态数据源
- *
- * @author ruoyi
+ * Dynamic data source
  */
 public class DynamicDataSource extends AbstractRoutingDataSource {
     public DynamicDataSource(DataSource defaultTargetDataSource, Map<Object, Object> targetDataSources) {
@@ -19,6 +17,6 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
 
     @Override
     protected Object determineCurrentLookupKey() {
-        return DynamicDataSourceContextHolder.getDataSourceType();
+        return DynamicDataSourceContextHolder.getDataSourceKey();
     }
 }

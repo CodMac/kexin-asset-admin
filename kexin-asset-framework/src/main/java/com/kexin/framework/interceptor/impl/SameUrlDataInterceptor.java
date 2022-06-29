@@ -4,7 +4,6 @@ import com.alibaba.fastjson2.JSON;
 import com.kexin.common.annotation.RepeatSubmit;
 import com.kexin.common.constant.CacheConstants;
 import com.kexin.common.core.redis.RedisCache;
-import com.kexin.common.filter.RepeatedlyRequestWrapper;
 import com.kexin.common.utils.StringUtils;
 import com.kexin.common.utils.http.HttpHelper;
 import com.kexin.framework.interceptor.RepeatSubmitInterceptor;
@@ -36,15 +35,9 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
     @Autowired
     private RedisCache redisCache;
 
-    @SuppressWarnings("unchecked")
     @Override
     public boolean isRepeatSubmit(HttpServletRequest request, RepeatSubmit annotation) {
-        String nowParams = "";
-        if (request instanceof RepeatedlyRequestWrapper) {
-            RepeatedlyRequestWrapper repeatedlyRequest = (RepeatedlyRequestWrapper) request;
-            nowParams = HttpHelper.getBodyString(repeatedlyRequest);
-        }
-
+        String nowParams = HttpHelper.getBodyString(request);
         // body参数为空，获取Parameter的数据
         if (StringUtils.isEmpty(nowParams)) {
             nowParams = JSON.toJSONString(request.getParameterMap());
@@ -72,7 +65,7 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
                 }
             }
         }
-        Map<String, Object> cacheMap = new HashMap<String, Object>();
+        Map<String, Object> cacheMap = new HashMap<>();
         cacheMap.put(url, nowDataMap);
         redisCache.setCacheObject(cacheRepeatKey, cacheMap, annotation.interval(), TimeUnit.MILLISECONDS);
         return false;

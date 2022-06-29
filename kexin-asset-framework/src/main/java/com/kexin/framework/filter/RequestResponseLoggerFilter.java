@@ -1,6 +1,8 @@
-package com.kexin.framework.security.filter;
+package com.kexin.framework.filter;
 
 import com.alibaba.fastjson2.JSON;
+import com.kexin.framework.wrapper.BufferedRequestWrapper;
+import com.kexin.framework.wrapper.BufferedResponseWrapper;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
